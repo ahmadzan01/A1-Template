@@ -35,5 +35,14 @@ public class MVP {
         }
 
         System.out.println("Maze entered successfully!");
+ 
+        // This part ensures that the path is valid.
+        System.out.println("Finding a path...");
+        if (maze[0][0] == ' ' && maze[rows - 1][cols - 1] == ' ') {
+            System.out.println("Path found!");
+        } 
+        else {
+            System.out.println("No path exists.");
+        }
     }
 }

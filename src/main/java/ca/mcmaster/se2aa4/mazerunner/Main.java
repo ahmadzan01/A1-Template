@@ -1,3 +1,13 @@
+/* Author: Naqeeb Ahmadzan.
+* The entry point for the Maze Runner program. In Step 2, this file ties 
+* together the walking skeleton by initializing the Maze, Runner, and 
+* MazeReader abstractions. It demonstrates their basic functionality, 
+* such as loading a maze, initializing the runner, and simulating simple 
+* movement. This provides a foundational framework for further exploration 
+* and extension.
+*/
+
+
 package ca.mcmaster.se2aa4.mazerunner;
 
 import org.apache.logging.log4j.LogManager;

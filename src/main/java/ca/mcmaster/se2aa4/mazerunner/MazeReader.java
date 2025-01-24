@@ -1,3 +1,10 @@
+/* Author: Naqeeb Ahmadzan.
+ * Handles reading and parsing a maze from a file.
+ * In Step 2, this abstraction supports loading the maze structure, 
+ * enabling exploration. By isolating file reading and parsing logic here, 
+ * the code is modular and easy to adapt for different input formats.
+ */
+
 package ca.mcmaster.se2aa4.mazerunner;
 
 import java.io.BufferedReader;

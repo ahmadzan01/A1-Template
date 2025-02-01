@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class MVP {
 
-    
+
     public static void main(String[] args)  {
 
         Scanner scanner = new Scanner(System.in);
@@ -41,6 +41,7 @@ public class MVP {
         if (maze[0][0] == ' ' && maze[rows - 1][cols - 1] == ' ') {
             System.out.println("Path found!");
         } 
+        
         else {
             System.out.println("No path exists.");
         }

@@ -1,10 +1,6 @@
 /* Author: Naqeeb Ahmadzan.
-* The entry point for the Maze Runner program. In Step 2, this file ties 
-* together the walking skeleton by initializing the Maze, Runner, and 
-* MazeReader abstractions. It demonstrates their basic functionality, 
-* such as loading a maze, initializing the runner, and simulating simple 
-* movement. This provides a foundational framework for further exploration 
-* and extension.
+*  Description: The entry point for the Maze Runner program. 
+*  It initializes the maze, processes user input, and computes or validates paths. 
 */
 
 
@@ -39,13 +35,16 @@ public class Main {
                     if (cmd.hasOption("p")) {
                         String path = cmd.getOptionValue("p");
                         NavigateMaze navigate = new NavigateMaze(inputFile, path);
+                        // This part implements the feature of Path Validation.
                         boolean isValid = navigate.PathValidate(path);
                         System.out.println(isValid ? "Correct Path" : "Incorrect Path");
                     } else {
                         NavigateMaze navigate = new NavigateMaze(inputFile);
+                        // This part implements the feature of Finding a Path.
                         System.out.println(navigate.PathCompute());
                     }
-                } else {
+                } 
+                else { // This part implements the feature of correct formatting.
                     System.err.println("Wrong format, please use '-i'");
                 }
             } catch (Exception e) {
@@ -124,7 +123,9 @@ public class Main {
             return -1;
         }
     
+
         public boolean PathValidate(String path) {
+            // This part implements the feature of Path Validation.
             String canonicalPath = FormChanger.factoredToCanonical(path);
             int row = findEntry();
             int col = 0;
@@ -152,6 +153,8 @@ public class Main {
         }
     
         public String PathCompute() {
+            
+            // This part implements the feature of Finding a Path
             char[][] grid = maze.getMazeGrid();
             int row = findEntry();
             int col = 0;
@@ -184,6 +187,8 @@ public class Main {
                     }
                 }
             }
+            
+            // This part implements the feature of Exit is Found
             return FormChanger.canonicalToFactored(path.toString());
         }
     }

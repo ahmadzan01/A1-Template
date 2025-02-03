@@ -10,31 +10,80 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 public class Runner {
-    private int currentRow;
-    private int currentCol;
+    private int x, y;
+    private Maze maze;
 
-    public Runner(int startRow, int startCol) {
-        this.currentRow = startRow;
-        this.currentCol = startCol;
+    // Constructor that takes a Maze object
+    public Runner(Maze maze) {
+        this.maze = maze;
+        this.x = maze.getStartX();
+        this.y = maze.getStartY();
     }
 
-    public void moveUp() {
-        currentRow--;
+    // Path validation method
+    public boolean validatePath(String path) {
+        int tempX = x, tempY = y;
+        char direction = 'E'; // Assuming initial direction is East
+
+        for (char move : path.toCharArray()) {
+            switch (move) {
+                case 'F': // Move forward
+                    if (!maze.canMove(tempX, tempY, direction)) {
+                        return false;
+                    }
+                    int[] newPos = maze.move(tempX, tempY, direction);
+                    tempX = newPos[0];
+                    tempY = newPos[1];
+                    break;
+                case 'L': // Turn left
+                    direction = turnLeft(direction);
+                    break;
+                case 'R': // Turn right
+                    direction = turnRight(direction);
+                    break;
+                default:
+                    return false; // Invalid move
+            }
+        }
+        return maze.isExit(tempX, tempY);
     }
 
-    public void moveDown() {
-        currentRow++;
+    // Find path using the given method (default: Right-Hand Rule)
+    public String findPath(String method) {
+        if ("tremaux".equals(method)) {
+            return solveUsingTremaux();
+        } else {
+            return solveUsingRightHand();
+        }
     }
 
-    public void moveLeft() {
-        currentCol--;
+    // Right-Hand Rule algorithm
+    private String solveUsingRightHand() {
+        // Implement the Right-Hand Rule logic
+        return "3F R 2F"; // Example output
     }
 
-    public void moveRight() {
-        currentCol++;
+    // Tremaux Algorithm (Bonus)
+    private String solveUsingTremaux() {
+        // Implement the Tremaux algorithm logic
+        return "2F L F R 2F"; // Example output
     }
 
-    public String getCurrentPosition() {
-        return "(" + currentRow + ", " + currentCol + ")";
+    private char turnLeft(char direction) {
+        return switch (direction) {
+            case 'N' -> 'W';
+            case 'W' -> 'S';
+            case 'S' -> 'E';
+            default -> 'N';
+        };
+    }
+
+    private char turnRight(char direction) {
+        return switch (direction) {
+            case 'N' -> 'E';
+            case 'E' -> 'S';
+            case 'S' -> 'W';
+            default -> 'N';
+        };
     }
 }

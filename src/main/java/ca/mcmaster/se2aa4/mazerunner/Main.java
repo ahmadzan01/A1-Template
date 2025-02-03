@@ -12,36 +12,55 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import java.io.IOException;
 
 public class Main {
-    private static final Logger logger = LogManager.getLogger();
-
     public static void main(String[] args) {
-        System.out.println("Starting Maze Runner");
-
-        try {
-            // Example file path (replace with your actual path)
-            String mazeFilePath = "examples/medium.maz.txt";
-
-            // Read the maze
-            char[][] mazeStructure = MazeReader.readMazeFromFile(mazeFilePath);
-            Maze maze = new Maze(mazeStructure);
-
-            // Display the maze
-            logger.info("Maze Loaded:");
-            maze.showMaze();
-
-            // Initialize runner at the top-left corner (0, 0)
-            Runner runner = new Runner(0, 0);
-            logger.info("Runner starting at: " + runner.getCurrentPosition());
-
-            // Example move
-            runner.moveRight();
-            logger.info("Runner moved to: " + runner.getCurrentPosition());
-        } catch (Exception e) {
-            logger.error("An error occurred: ", e);
+        if (args.length == 0) {
+            System.out.println("Usage: java -jar mazerunner.jar -i <maze_file> [-p <path>] [-method <method>]");
+            return;
         }
 
-        System.out.println("End of Maze Runner");
+        String mazeFilePath = null;
+        String pathToValidate = null;
+        String method = "righthand"; // Default method
+
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].equals("-i") && i + 1 < args.length) {
+                mazeFilePath = args[i + 1];
+            } else if (args[i].equals("-p") && i + 1 < args.length) {
+                pathToValidate = args[i + 1];
+            } else if (args[i].equals("-method") && i + 1 < args.length) {
+                method = args[i + 1].toLowerCase();
+            }
+        }
+
+        if (mazeFilePath == null) {
+            System.out.println("Error: Maze file path must be specified with -i flag.");
+            return;
+        }
+
+        try {
+            char[][] mazeStructure = MazeReader.readMazeFromFile(mazeFilePath);
+            Maze maze = new Maze(mazeStructure);
+            Runner runner = new Runner(maze);
+
+            if (pathToValidate != null) {
+                // This part fulfills the feature of path validation
+                if (runner.validatePath(pathToValidate)) {
+                    System.out.println("correct path");
+                } else {
+                    System.out.println("incorrect path");
+                }
+            } else {
+                // This part fulfills the feature of finding a path
+                String computedPath = runner.findPath(method);
+                System.out.println(computedPath);
+            }
+        } catch (IOException e) {
+            System.out.println("Error: Could not read the maze file.");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 }

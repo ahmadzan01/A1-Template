@@ -125,14 +125,14 @@ public class Main {
             this.path = path;
         }
     
-        private int findEntry() {
+        public int findEntry() {
             for (int x = 0; x < maze.getRows(); x++) {
                 if (maze.getMazeGrid()[x][0] != '#') return x;
             }
             return -1;
         }
     
-        private int findExit() {
+        public int findExit() {
             for (int x = 0; x < maze.getRows(); x++) {
                 if (maze.getMazeGrid()[x][maze.getColumns() - 1] != '#') return x;
             }
@@ -219,39 +219,40 @@ public class Main {
 
     class FormChanger {
         public static String canonicalToFactored(String canonicalPath) {
+            if (canonicalPath.isEmpty()) {
+                return "";
+            }
             StringBuilder factored = new StringBuilder();
             int count = 1;
             for (int i = 1; i < canonicalPath.length(); i++) {
                 if (canonicalPath.charAt(i) == canonicalPath.charAt(i - 1)) {
                     count++;
-                } 
-                else {
+                } else {
                     if (count > 1) factored.append(count);
-                        factored.append(canonicalPath.charAt(i - 1)).append(" ");
-                        count = 1;
+                    factored.append(canonicalPath.charAt(i - 1)).append(" ");
+                    count = 1;
                 }
             }
-
             if (count > 1) factored.append(count);
-                factored.append(canonicalPath.charAt(canonicalPath.length() - 1));
-                return factored.toString();
-    }
+            factored.append(canonicalPath.charAt(canonicalPath.length() - 1));
+            return factored.toString();
+        }
     
-
-
-    public static String factoredToCanonical(String factoredPath) {
-        StringBuilder canonical = new StringBuilder();
-        int count = 1;
+        public static String factoredToCanonical(String factoredPath) {
+            if (factoredPath.isEmpty()) {
+                return "";
+            }
+            StringBuilder canonical = new StringBuilder();
+            int count = 1;
             for (int i = 0; i < factoredPath.length(); i++) {
                 char ch = factoredPath.charAt(i);
                 if (Character.isDigit(ch)) {
                     count = Character.getNumericValue(ch);
-                } 
-                else if (ch != ' ') {
+                } else if (ch != ' ') {
                     canonical.append(String.valueOf(ch).repeat(count));
                     count = 1;
                 }
             }
             return canonical.toString();
         }
-}
+    }

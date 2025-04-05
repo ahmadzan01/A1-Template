@@ -15,8 +15,7 @@
 
   <properties>
     <mainClass>ca.mcmaster.se2aa4.mazerunner.Main</mainClass>
-    <maven.compiler.source>21</maven.compiler.source>
-    <maven.compiler.target>21</maven.compiler.target>
+    <maven.compiler.release>21</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -27,6 +26,7 @@
       <artifactId>commons-cli</artifactId>
       <version>1.6.0</version>
     </dependency>
+
     <!-- To support Logging through Log4J-->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
@@ -36,6 +36,33 @@
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-core</artifactId>
     </dependency>
+
+    <!-- JUnit 5 (Jupiter) Dependencies -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>5.10.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.10.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+      <version>5.10.0</version>
+    </dependency>
+    
+    <!-- Maven Surefire Plugin (Ensures tests run properly) -->
+    <dependency>
+      <groupId>org.apache.maven.surefire</groupId>
+      <artifactId>surefire-api</artifactId>
+      <version>3.2.5</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>

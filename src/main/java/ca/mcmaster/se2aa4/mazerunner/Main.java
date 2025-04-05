@@ -67,6 +67,18 @@ public class Main {
     }
     
 
+    // ================== FACTORY METHOD PATTERN ==================
+    interface MazeFactory {
+        Maze createMaze(String inputFile) throws IOException;
+    }
+
+    class BasicMazeFactory implements MazeFactory {
+        @Override
+        public Maze createMaze(String inputFile) throws IOException {
+            return new Maze(inputFile);
+    }
+    }
+    // ============================================================
 
     class Maze {
         private char[][] mazeGrid;
@@ -111,6 +123,60 @@ public class Main {
         }
     }
     
+    interface PathStrategy {
+        String computePath(Maze maze);
+    }
+
+    // ============= STRATEGY PATTERN IMPLEMENTATION =============
+    class RightHandStrategy implements PathStrategy {
+        @Override
+        public String computePath(Maze maze) {
+            char[][] grid = maze.getMazeGrid();
+            int row = findEntry(maze);
+            int col = 0;
+            int direction = 1;
+            StringBuilder path = new StringBuilder();
+            int[][] moves = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+
+            while (col != maze.getColumns() - 1) {
+                int rightDir = (direction + 1) % 4;
+                int rightRow = row + moves[rightDir][0];
+                int rightCol = col + moves[rightDir][1];
+
+                if (grid[rightRow][rightCol] != '#') {
+                    direction = rightDir;
+                    path.append("R");
+                    row = rightRow;
+                    col = rightCol;
+                    path.append("F");
+                } else {
+                    int nextRow = row + moves[direction][0];
+                    int nextCol = col + moves[direction][1];
+
+                    if (grid[nextRow][nextCol] != '#') {
+                        row = nextRow;
+                        col = nextCol;
+                        path.append("F");
+                    } else {
+                        direction = (direction + 3) % 4;
+                        path.append("L");
+                    }
+                }
+            }
+
+            return FormChanger.canonicalToFactored(path.toString());
+        }
+
+        private int findEntry(Maze maze) {
+            for (int x = 0; x < maze.getRows(); x++) {
+                if (maze.getMazeGrid()[x][0] != '#') return x;
+            }
+            return -1;
+        }
+    }
+
+    // ============================================================
+
 
     class NavigateMaze {
         private Maze maze;
